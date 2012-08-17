@@ -1,3 +1,4 @@
+ifeq ($(USE_FEATURE_ALAC),true)
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
@@ -13,9 +14,9 @@ LOCAL_SRC_FILES := \
         ag_dec.c
 
 LOCAL_C_INCLUDES := \
-        frameworks/base/media/libstagefright/include \
-        frameworks/base/include/media/stagefright/openmax \
-        frameworks/base/media/libstagefright/omx \
+        frameworks/av/media/libstagefright/include \
+        frameworks/native/include/media/openmax \
+        frameworks/av/media/libstagefright/omx \
         $(LOCAL_PATH) 
 
 LOCAL_SHARED_LIBRARIES := \
@@ -25,3 +26,4 @@ LOCAL_MODULE := libstagefright_soft_alacdec
 LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)
+endif
