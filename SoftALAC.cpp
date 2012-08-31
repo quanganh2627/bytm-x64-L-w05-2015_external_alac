@@ -20,6 +20,8 @@
 
 #define LOG_NDEBUG 0
 #define LOG_TAG "SoftALAC"
+#define MAX_NUM_CHANNELS 8
+#define MAX_OUT_PCM_BUFFER_SIZE (MAX_NUM_CHANNELS*4096*2)
 #include <utils/Log.h>
 #include "SoftALAC.h"
 #include <media/stagefright/foundation/ADebug.h>
@@ -131,7 +133,7 @@ void SoftALAC::initPorts()
     def.nBufferCountActual = def.nBufferCountMin;
 
     // FIXME - make parametric on init (as above)
-    def.nBufferSize = 2*2*2*4096;
+    def.nBufferSize = MAX_OUT_PCM_BUFFER_SIZE;
     def.bEnabled = OMX_TRUE;
     def.bPopulated = OMX_FALSE;
     def.eDomain = OMX_PortDomainAudio;
