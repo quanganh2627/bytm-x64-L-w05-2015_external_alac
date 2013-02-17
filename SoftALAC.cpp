@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-#define LOG_NDEBUG 0
+//#define LOG_NDEBUG 0
 #define LOG_TAG "SoftALAC"
 #define MAX_NUM_CHANNELS 8
 #define MAX_OUT_PCM_BUFFER_SIZE (MAX_NUM_CHANNELS*4096*2)
