@@ -20,7 +20,7 @@ LOCAL_C_INCLUDES := \
         $(LOCAL_PATH) 
 
 LOCAL_SHARED_LIBRARIES := \
-        libstagefright libstagefright_omx libstagefright_foundation libutils
+        libstagefright libstagefright_omx libstagefright_foundation libutils liblog
 
 LOCAL_MODULE := libstagefright_soft_alacdec
 LOCAL_MODULE_TAGS := optional
