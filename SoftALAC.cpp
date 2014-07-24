@@ -74,10 +74,10 @@ SoftALAC::SoftALAC(
         OMX_PTR appData,
         OMX_COMPONENTTYPE **component)
     : SimpleSoftOMXComponent(name, callbacks, appData, component),
+      mFrameCount(0),
       mAnchorTimeUs(0),
       mNumSamplesOutput(0),
       mSignalledError(false),
-      mFrameCount(0),
       mOutputPortSettingsChange(NONE)
 {
     LOGV("SoftALAC v0.1016 %s %s\n",__DATE__,__TIME__);

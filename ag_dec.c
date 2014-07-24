@@ -296,7 +296,7 @@ int32_t dyn_decomp( AGParamRecPtr params, BitBuffer * bitstream, int32_t * pc, i
     c = 0;
 	status = ALAC_noErr;
 
-    while (c < numSamples)
+    while (c < (uint32_t)numSamples)
     {
 		// bail if we've run off the end of the buffer
     	RequireAction( bitPos < maxPos, status = kALAC_ParamError; goto Exit; );
@@ -330,7 +330,7 @@ int32_t dyn_decomp( AGParamRecPtr params, BitBuffer * bitstream, int32_t * pc, i
 
         zmode = 0;
 
-        if (((mb << MMULSHIFT) < QB) && (c < numSamples))
+        if (((mb << MMULSHIFT) < QB) && (c < (uint32_t)numSamples))
         {
             zmode = 1;
             k = lead(mb) - BITOFF+((mb+MOFF)>>MDENSHIFT);
@@ -338,7 +338,7 @@ int32_t dyn_decomp( AGParamRecPtr params, BitBuffer * bitstream, int32_t * pc, i
 
             n = dyn_get(in, &bitPos, mz, k);
 
-            RequireAction(c+n <= numSamples, status = kALAC_ParamError; goto Exit; );
+            RequireAction((c+n) <= (uint32_t)numSamples, status = kALAC_ParamError; goto Exit; );
 
             for(j=0; j < n; j++)
             {
