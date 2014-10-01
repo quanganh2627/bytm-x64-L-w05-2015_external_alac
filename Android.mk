@@ -22,6 +22,10 @@ LOCAL_C_INCLUDES := \
 LOCAL_SHARED_LIBRARIES := \
         libstagefright libstagefright_omx libstagefright_foundation libutils liblog
 
+ifeq ($(USE_FEATURE_ALAC),true)
+    LOCAL_CPPFLAGS += -DUSE_FEATURE_ALAC
+endif
+
 LOCAL_MODULE := libstagefright_soft_alacdec
 LOCAL_MODULE_TAGS := optional
 

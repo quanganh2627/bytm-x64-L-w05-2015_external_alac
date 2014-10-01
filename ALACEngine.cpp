@@ -144,10 +144,10 @@ int32_t ALACEngine::Init( ALACSpecificConfig *pALACConfig )
         theConfig.sampleRate = Swap32BtoN(((ALACSpecificConfig *)theActualCookie)->sampleRate);
 #endif
         mConfig = *pALACConfig;
-        LOGV("Initialized frame size to %d\n",mConfig.frameLength);
-		LOGV("Sample rate = %d\n",mConfig.sampleRate);
-		LOGV("Bit Depth = %d\n",mConfig.bitDepth);
-		LOGV("Channels = %d\n",mConfig.numChannels);
+        ALOGV("Initialized frame size to %d\n",mConfig.frameLength);
+		ALOGV("Sample rate = %d\n",mConfig.sampleRate);
+		ALOGV("Bit Depth = %d\n",mConfig.bitDepth);
+		ALOGV("Channels = %d\n",mConfig.numChannels);
 
         RequireAction( mConfig.compatibleVersion <= kALACVersion, return kALAC_ParamError; );
 

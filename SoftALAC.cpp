@@ -80,28 +80,28 @@ SoftALAC::SoftALAC(
       mSignalledError(false),
       mOutputPortSettingsChange(NONE)
 {
-    LOGV("SoftALAC v0.1016 %s %s\n",__DATE__,__TIME__);
+    ALOGV("SoftALAC v0.1016 %s %s\n",__DATE__,__TIME__);
     initPorts();
     initDecoder();
-    LOGV("EXIT SoftALAC\n");
+    ALOGV("EXIT SoftALAC\n");
 }
 
 SoftALAC::~SoftALAC()
 {
-    LOGV("ENTER ~SoftALAC\n");
+    ALOGV("ENTER ~SoftALAC\n");
     if ( mALACEngine != NULL )
     {
-        LOGV("Deleting SoftALAC\n");
+        ALOGV("Deleting SoftALAC\n");
         delete mALACEngine;
         mALACEngine = NULL;
-        LOGV("Done deleting SoftALAC\n");
+        ALOGV("Done deleting SoftALAC\n");
     }
-    LOGV("EXIT ~SoftALAC\n");
+    ALOGV("EXIT ~SoftALAC\n");
 }
 
 void SoftALAC::initPorts()
 {
-    LOGV("ENTER SoftALAC::initPorts\n");
+    ALOGV("ENTER SoftALAC::initPorts\n");
 
     // Create ports
     OMX_PARAM_PORTDEFINITIONTYPE def;
@@ -144,21 +144,21 @@ void SoftALAC::initPorts()
     def.format.audio.bFlagErrorConcealment = OMX_FALSE;
     def.format.audio.eEncoding = OMX_AUDIO_CodingPCM;
     addPort(def);
-    LOGV("EXIT SoftALAC::initPorts\n");
+    ALOGV("EXIT SoftALAC::initPorts\n");
 }
 
 void SoftALAC::initDecoder()
 {
-    LOGV("ENTER SoftALAC::initDecoder\n");
+    ALOGV("ENTER SoftALAC::initDecoder\n");
     // Create alac decoder
     mALACEngine = new ALACEngine;
     memset(&mALACConfig,sizeof(ALACSpecificConfig),0);
-    LOGV("EXIT SoftALAC::initDecoder\n");
+    ALOGV("EXIT SoftALAC::initDecoder\n");
 }
 
 OMX_ERRORTYPE SoftALAC::internalGetParameter( OMX_INDEXTYPE index, OMX_PTR params )
 {
-    LOGV("ENTER SoftALAC::internalGetParameter\n");
+    ALOGV("ENTER SoftALAC::internalGetParameter\n");
     switch (index)
     {
         case (OMX_INDEXTYPE) OMX_IndexParamAudioAlac:
@@ -166,7 +166,7 @@ OMX_ERRORTYPE SoftALAC::internalGetParameter( OMX_INDEXTYPE index, OMX_PTR param
             OMX_AUDIO_PARAM_ALACTYPE_EXT_INTEL *alacParams = (OMX_AUDIO_PARAM_ALACTYPE_EXT_INTEL *) params;
             if ( alacParams->nPortIndex != 0 )
             {
-                LOGV("ERROR SoftALAC::internalGetParameter/portIndex\n");
+                ALOGV("ERROR SoftALAC::internalGetParameter/portIndex\n");
                 return OMX_ErrorUndefined;
             }
             alacParams->nFrameLength = mALACConfig.frameLength;
@@ -180,7 +180,7 @@ OMX_ERRORTYPE SoftALAC::internalGetParameter( OMX_INDEXTYPE index, OMX_PTR param
             alacParams->nMaxFrameBytes = mALACConfig.maxFrameBytes;
             alacParams->nAvgBitRate = mALACConfig.avgBitRate;
             alacParams->nSampleRate = mALACConfig.sampleRate;
-            LOGV("EXIT SoftALAC::internalGetParameter()/ALAC input port\n");
+            ALOGV("EXIT SoftALAC::internalGetParameter()/ALAC input port\n");
             return OMX_ErrorNone;
         }
         case OMX_IndexParamAudioPcm:
@@ -188,7 +188,7 @@ OMX_ERRORTYPE SoftALAC::internalGetParameter( OMX_INDEXTYPE index, OMX_PTR param
             OMX_AUDIO_PARAM_PCMMODETYPE *pcmParams = (OMX_AUDIO_PARAM_PCMMODETYPE *) params;
             if ( pcmParams->nPortIndex != 1 )
             {
-                LOGV("ERROR SoftALAC::internalGetParameter/portIndex\n");
+                ALOGV("ERROR SoftALAC::internalGetParameter/portIndex\n");
                 return OMX_ErrorUndefined;
             }
             pcmParams->eNumData = OMX_NumericalDataSigned;
@@ -200,7 +200,7 @@ OMX_ERRORTYPE SoftALAC::internalGetParameter( OMX_INDEXTYPE index, OMX_PTR param
             pcmParams->eChannelMapping[1] = OMX_AUDIO_ChannelRF;
             pcmParams->nChannels = mALACConfig.numChannels;
             pcmParams->nSamplingRate = mALACConfig.sampleRate;
-            LOGV("EXIT SoftALAC::internalGetParameter()/PCM output port\n");
+            ALOGV("EXIT SoftALAC::internalGetParameter()/PCM output port\n");
             return OMX_ErrorNone;
         }
         default:
@@ -210,7 +210,7 @@ OMX_ERRORTYPE SoftALAC::internalGetParameter( OMX_INDEXTYPE index, OMX_PTR param
 
 OMX_ERRORTYPE SoftALAC::internalSetParameter( OMX_INDEXTYPE index, const OMX_PTR params )
 {
-    LOGV("ENTER SoftALAC::internalSetParameter\n");
+    ALOGV("ENTER SoftALAC::internalSetParameter\n");
     switch (index)
     {
         case OMX_IndexParamStandardComponentRole:
@@ -218,10 +218,10 @@ OMX_ERRORTYPE SoftALAC::internalSetParameter( OMX_INDEXTYPE index, const OMX_PTR
             const OMX_PARAM_COMPONENTROLETYPE *roleParams = (const OMX_PARAM_COMPONENTROLETYPE *) params;
             if ( strncmp((const char *)roleParams->cRole, "audio_decoder.alac", OMX_MAX_STRINGNAME_SIZE - 1) )
             {
-                LOGV("Error SoftALAC::internalSetParameter UNDEFINED ROLE REQUEST\n");
+                ALOGV("Error SoftALAC::internalSetParameter UNDEFINED ROLE REQUEST\n");
                 return OMX_ErrorUndefined;
             }
-            LOGV("Exit SoftALAC::internalSetParameter ROLE REQUEST OK\n");
+            ALOGV("Exit SoftALAC::internalSetParameter ROLE REQUEST OK\n");
             return OMX_ErrorNone;
         }
         case (OMX_INDEXTYPE) OMX_IndexParamAudioAlac:
@@ -229,7 +229,7 @@ OMX_ERRORTYPE SoftALAC::internalSetParameter( OMX_INDEXTYPE index, const OMX_PTR
             const OMX_AUDIO_PARAM_ALACTYPE_EXT_INTEL *alacParams = (const OMX_AUDIO_PARAM_ALACTYPE_EXT_INTEL *) params;
             if (alacParams->nPortIndex != 0)
             {
-                LOGV("EXIT SoftALAC::internalSetParameter()/input ALAC port index error\n");
+                ALOGV("EXIT SoftALAC::internalSetParameter()/input ALAC port index error\n");
                 return OMX_ErrorUndefined;
             }
             mALACConfig.frameLength = alacParams->nFrameLength;
@@ -243,32 +243,32 @@ OMX_ERRORTYPE SoftALAC::internalSetParameter( OMX_INDEXTYPE index, const OMX_PTR
             mALACConfig.maxFrameBytes = alacParams->nMaxFrameBytes;
             mALACConfig.avgBitRate = alacParams->nAvgBitRate;
             mALACConfig.sampleRate = alacParams->nSampleRate;
-            LOGV("EXIT SoftALAC::internalSetParameter()/ALAC input port\n");
+            ALOGV("EXIT SoftALAC::internalSetParameter()/ALAC input port\n");
 
             // Create and initialize alac decoder
             // FIXME: use defaults, dynamic reconfig as needed
             if ( mALACEngine != NULL )
             {
-                LOGV("Deleting ALAC decoder\n");
+                ALOGV("Deleting ALAC decoder\n");
                 delete mALACEngine;
                 mALACEngine = NULL;
-                LOGV("Done deleting ALAC decoder\n");
+                ALOGV("Done deleting ALAC decoder\n");
             }
-            LOGV("Creating new ALAC decoder\n");
+            ALOGV("Creating new ALAC decoder\n");
             mALACEngine = new ALACEngine;
-            LOGV("Done creating new ALAC decoder\n");
-            LOGV("Initializing new ALAC decoder per SetParameter inputs\n");
-            LOGV("%d %d %d %d %d %d %d %d %d %d\n",mALACConfig.frameLength,mALACConfig.bitDepth,mALACConfig.pb,mALACConfig.mb,mALACConfig.kb,mALACConfig.numChannels,
+            ALOGV("Done creating new ALAC decoder\n");
+            ALOGV("Initializing new ALAC decoder per SetParameter inputs\n");
+            ALOGV("%d %d %d %d %d %d %d %d %d %d\n",mALACConfig.frameLength,mALACConfig.bitDepth,mALACConfig.pb,mALACConfig.mb,mALACConfig.kb,mALACConfig.numChannels,
                   mALACConfig.maxRun,mALACConfig.maxFrameBytes,mALACConfig.avgBitRate,mALACConfig.sampleRate);
             mALACEngine->Init(&mALACConfig);
             mFrameCount = 0;
-            LOGV("Done initializing new ALAC decoder\n");
+            ALOGV("Done initializing new ALAC decoder\n");
 
             return OMX_ErrorNone;
         }
         default:
         {
-            LOGV("EXIT SoftALAC::internalSetParameter / default\n");
+            ALOGV("EXIT SoftALAC::internalSetParameter / default\n");
             return SimpleSoftOMXComponent::internalSetParameter(index, params);
         }
     }
@@ -279,7 +279,7 @@ void SoftALAC::onQueueFilled(OMX_U32 portIndex)
     uint32_t numSamplesDecoded;
     if ( mSignalledError || mOutputPortSettingsChange != NONE )
     {
-        LOGV("EXIT SoftALAC::onQueueFilled: NO DATA\n");
+        ALOGV("EXIT SoftALAC::onQueueFilled: NO DATA\n");
         return;
     }
     List<BufferInfo *> &inQueue = getPortQueue(0);
@@ -293,7 +293,7 @@ void SoftALAC::onQueueFilled(OMX_U32 portIndex)
         OMX_BUFFERHEADERTYPE *outHeader = outInfo->mHeader;
         if ( inHeader->nFlags & OMX_BUFFERFLAG_EOS )
         {
-            LOGV("onQueueFilled OMX_BUFFERFLAG_EOS\n");
+            ALOGV("onQueueFilled OMX_BUFFERFLAG_EOS\n");
             inQueue.erase(inQueue.begin());
             inInfo->mOwnedByUs = false;
             notifyEmptyBufferDone(inHeader);
@@ -302,7 +302,7 @@ void SoftALAC::onQueueFilled(OMX_U32 portIndex)
             outQueue.erase(outQueue.begin());
             outInfo->mOwnedByUs = false;
             notifyFillBufferDone(outHeader);
-            LOGV("EXIT SoftALAC::onQueueFilled EOS\n");
+            ALOGV("EXIT SoftALAC::onQueueFilled EOS\n");
             return;
         }
         if (inHeader->nOffset == 0)
@@ -318,7 +318,7 @@ void SoftALAC::onQueueFilled(OMX_U32 portIndex)
         // Decode ALAC frame
         BitBufferInit( &mAlacBitBuf, p, inputBufferCurrentLength );
         mALACEngine->Decode( &mAlacBitBuf, (uint8_t *)pOut, mALACConfig.frameLength, mALACConfig.numChannels, &numSamplesDecoded );
-        LOGV("Frame %d %d %d\n", mFrameCount, inputBufferCurrentLength, numSamplesDecoded);
+        ALOGV("Frame %d %d %d\n", mFrameCount, inputBufferCurrentLength, numSamplesDecoded);
         mFrameCount++;
 
         // Convert output to 16-bit PCM
@@ -365,18 +365,18 @@ void SoftALAC::onQueueFilled(OMX_U32 portIndex)
 
 void SoftALAC::onPortFlushCompleted(OMX_U32 portIndex)
 {
-    LOGV("ENTER SoftALAC::onPortFlushCompleted\n");
+    ALOGV("ENTER SoftALAC::onPortFlushCompleted\n");
     if (portIndex == 0) {
         // Make sure that the next buffer output does not still
         // depend on fragments from the last one decoded.
         // FIXME: re-init decoder
     }
-    LOGV("EXIT SoftALAC::onPortFlushCompleted\n");
+    ALOGV("EXIT SoftALAC::onPortFlushCompleted\n");
 }
 
 void SoftALAC::onPortEnableCompleted(OMX_U32 portIndex, bool enabled)
 {
-    LOGV("ENTER SoftALAC::onPortEnableCompleted\n");
+    ALOGV("ENTER SoftALAC::onPortEnableCompleted\n");
     if (portIndex != 1)
     {
         return;
@@ -401,13 +401,13 @@ void SoftALAC::onPortEnableCompleted(OMX_U32 portIndex, bool enabled)
             break;
         }
     }
-    LOGV("EXIT SoftALAC::onPortEnableCompleted\n");
+    ALOGV("EXIT SoftALAC::onPortEnableCompleted\n");
 }
 
 }  // namespace android
 
 android::SoftOMXComponent *createSoftOMXComponent( const char *name, const OMX_CALLBACKTYPE *callbacks, OMX_PTR appData, OMX_COMPONENTTYPE **component)
 {
-    LOGV("ENTER/EXIT SoftALAC SoftOMXComponent - createSoftOMXComponent\n");
+    ALOGV("ENTER/EXIT SoftALAC SoftOMXComponent - createSoftOMXComponent\n");
     return new android::SoftALAC(name, callbacks, appData, component);
 }
