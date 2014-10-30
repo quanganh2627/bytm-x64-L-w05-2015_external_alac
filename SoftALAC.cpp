@@ -120,7 +120,7 @@ void SoftALAC::initPorts()
     def.eDomain = OMX_PortDomainAudio;
     def.bBuffersContiguous = OMX_FALSE;
     def.nBufferAlignment = 1;
-    def.format.audio.cMIMEType = const_cast<char *>(MEDIA_MIMETYPE_AUDIO_ALAC);
+    def.format.audio.cMIMEType = const_cast<char *>("audio/alac");
     def.format.audio.pNativeRender = NULL;
     def.format.audio.bFlagErrorConcealment = OMX_FALSE;
     def.format.audio.eEncoding = (OMX_AUDIO_CODINGTYPE) OMX_AUDIO_CodingALAC;

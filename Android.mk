@@ -16,7 +16,6 @@ LOCAL_SRC_FILES := \
 LOCAL_C_INCLUDES := \
         frameworks/av/media/libstagefright/include \
         frameworks/native/include/media/openmax \
-        frameworks/av/media/libstagefright/omx \
         $(LOCAL_PATH) 
 
 LOCAL_SHARED_LIBRARIES := \
